@@ -88,7 +88,7 @@ export default function DrawerMenu() {
             Inicio
           </Drawer.Item>
         </Link>
-        <Link to="/">
+        <Link to="/login">
           <Drawer.Item>
             Login
           </Drawer.Item>
