@@ -11,48 +11,34 @@ const Container = styled.ul`
     top: 0;
     bottom: 0;
     margin: auto;
-    width: 30px;
-    height: 300px;
     transform: initial;
     &:before {
-      font-size: 50px;
-      font-family: 'Red Hat Display', sans-serif;
+      display: ${({ arrows }) => `${arrows}`};
+      font-size: 30px;
+      color: var(--white);
+      border-color: black;
     }
   }
   
   .slick-prev {
     left: 10px;
-    &:before {
-      content: "<";
-    }
   }
   .slick-next {
     right: 10px;
-    &:before {
-      content: ">";
-    }
   }
 `;
 
-const SliderItem = styled.li`
-  margin-right: 16px;
-  img {
-    margin: 16px;
-    width: 298px;
-    height: 197px;
-    object-fit: cover;
-  }
-`;
-
-const Slider = ({ children }) => (
-  <Container>
+const Slider = ({ children, speed, autoplay, dots }) => (
+  <Container arrows={dots ? "None" : "flex"}>
     <SlickSlider {...{
-      dots: false,
+      dots: dots,
       infinite: true,
-      speed: 300,
-      centerMode: false,
+      speed: speed,
+      centerMode: true,
       variableWidth: true,
       adaptiveHeight: true,
+      autoplay: autoplay,
+      autoplaySpeed: 5000,
     }}
     >
       {children}
@@ -60,4 +46,4 @@ const Slider = ({ children }) => (
   </Container>
 );
 
-export { Slider, SliderItem };
+export { Slider };

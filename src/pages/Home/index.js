@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Navbar } from '../../components/Navbar';
 import { Banner } from '../../components/Banner';
-import { Container } from '../../components/Container';
-import { Slider, SliderItem } from '../../components/Carousel';
+import { PageDefault } from '../../components/PageDefault';
+import { Slider } from '../../components/Carousel';
 import { ProjectCard } from '../../components/Carousel/ProjectCard';
+import { Storie } from '../../components/Carousel/Storie';
 import { Button } from '../../components/Button';
 
+import { stories } from '../../content/stories'
 import agriculturaImg from '../../assets/img/agricultura.jpg';
 import arteImg from '../../assets/img/arte.jpg';
 import caravanaImg from '../../assets/img/caravana.jpg';
@@ -18,20 +19,21 @@ const Topic = styled.div`
     position: relative;
     display: block;
     margin: 3%;
-    margin-bottom: 2%;
+    margin-bottom: 5%;
 `;
 
 Topic.Title = styled.h3`
-    text-align: center;
-    font-weight: bold;
-    font-size: 18px;
-    color: var(--secondary);
+  margin-top: 5%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  color: var(--secondary);
 
-    @media(max-width: 800px) {
-      display: block;
-      justify-content: center;
-      margin-top: 10%;
-    }
+  @media(max-width: 800px) {
+    display: block;
+    justify-content: center;
+    margin-top: 10%;
+  }
 `;
 
 Topic.Paragraph = styled.p`
@@ -55,9 +57,19 @@ Topic.Container = styled.div`
 
 function Home() {
   return (
-    <Container>
-      <Navbar />
+    <PageDefault>
       <Banner />
+      <Slider speed={1500} autoplay={true} dots={true}>
+        {stories.map((storie) => {
+          return (
+            <Storie
+              title={storie.title}
+              text={storie.text}
+              imagePath={storie.url}
+            />
+          )
+        })}
+      </Slider>
       <Topic>
         <Topic.Title>A Organização</Topic.Title>
         <Topic.Paragraph>
@@ -65,49 +77,37 @@ function Home() {
           oportunidades para que a comunidade possa de desenvolver e assim
           colaborar para o desenvolvimento local. Veja nossos projetos:
         </Topic.Paragraph>
-        <Slider>
-          <SliderItem>
-            <ProjectCard
-              title="Arte e Cultura"
-              projectURL="/"
-              imagePath={arteImg}
-            />
-          </SliderItem>
-          <SliderItem>
-            <ProjectCard
-              title="Agricultura familiar"
-              projectURL="/"
-              imagePath={agriculturaImg}
-            />
-          </SliderItem>
-          <SliderItem>
-            <ProjectCard
-              title="Esporte e Lazer"
-              projectURL="/"
-              imagePath={esporteImg}
-            />
-          </SliderItem>
-          <SliderItem>
-            <ProjectCard
-              title="Caravana Encantada"
-              projectURL="/"
-              imagePath={caravanaImg}
-            />
-          </SliderItem>
-          <SliderItem>
-            <ProjectCard
-              title="Educação Ambiental"
-              projectURL="/"
-              imagePath={sustentabilidadeImg}
-            />
-          </SliderItem>
-          <SliderItem>
-            <ProjectCard
-              title="Conquistar Sonhos"
-              projectURL="/"
-              imagePath={sonhosImg}
-            />
-          </SliderItem>
+        <Slider speed={500}>
+          <ProjectCard
+            title="Arte e Cultura"
+            projectURL="/"
+            imagePath={arteImg}
+          />
+          <ProjectCard
+            title="Agricultura familiar"
+            projectURL="/"
+            imagePath={agriculturaImg}
+          />
+          <ProjectCard
+            title="Esporte e Lazer"
+            projectURL="/"
+            imagePath={esporteImg}
+          />
+          <ProjectCard
+            title="Caravana Encantada"
+            projectURL="/"
+            imagePath={caravanaImg}
+          />
+          <ProjectCard
+            title="Educação Ambiental"
+            projectURL="/"
+            imagePath={sustentabilidadeImg}
+          />
+          <ProjectCard
+            title="Conquistar Sonhos"
+            projectURL="/"
+            imagePath={sonhosImg}
+          />
         </Slider>
       </Topic>
       <Topic>
@@ -151,7 +151,7 @@ function Home() {
           dos programas e doações, basta preencher o fomulário abaixo para
           que possamos entrar em contato e avaliar suas necessidades.
         </Topic.Paragraph>
-          <Button>FORMULARIO</Button>
+        <Button>FORMULARIO</Button>
       </Topic>
       <Topic>
         <Topic.Title>Melhor Oferta!</Topic.Title>
@@ -159,9 +159,9 @@ function Home() {
           Conheça nossa ferramenta “Melhor Oferta!” para saber onde comprar
           os itens da cesta básica mais em conta perto de você.
         </Topic.Paragraph>
-          <Button>MELHOR OFERTA!</Button>
+        <Button>MELHOR OFERTA!</Button>
       </Topic>
-    </Container>
+    </PageDefault>
   );
 }
 

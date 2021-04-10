@@ -6,6 +6,7 @@ export const ProjectCardContainer = styled.a`
   height: 140px;
   border-radius: 10px;
   border: 2px solid;
+  margin-right: 16px;
   background-image: ${({ url }) => `url(${url})`};
   background-size: cover;
   background-position: center;
