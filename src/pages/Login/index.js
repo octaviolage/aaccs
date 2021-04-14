@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useHistory } from "react-router-dom";
 import { FormField } from '../../components/FormField';
 import { Button } from '../../components/Button';
 import { useForm } from '../../components/hooks/useForm';
@@ -28,18 +29,22 @@ const Form = styled.form`
 `;
 
 function Login() {
+    let history = useHistory();
+
     const valoresIniciais = {
         email: '',
         password: '',
       };
 
-    const { handleChange, values, clearForm } = useForm(valoresIniciais);
+    const { handleChange, values, clearForm } = useForm((valoresIniciais));
 
     function handleSubmit(event) {
         event.preventDefault();
-        console.log(event)
+        console.log(event);
         //TODO: Calls login function
         clearForm();
+        history.push('/');
+        
     }
     
     return (
@@ -50,6 +55,7 @@ function Login() {
                     label="Email"
                     type="text"
                     name="email"
+                    position="main"
                     value={values.email}
                     onChange={handleChange}
                 />
@@ -57,10 +63,11 @@ function Login() {
                     label="Senha"
                     type="password"
                     name="password"
+                    position="main"
                     value={values.password}
                     onChange={handleChange}
                 />
-
+                <br/>
                 <Button type="submit">
                     Entrar
                 </Button>

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { Banner } from '../../components/Banner';
 import { PageDefault } from '../../components/PageDefault';
 import { Slider } from '../../components/Carousel';
@@ -151,7 +152,9 @@ function Home() {
           dos programas e doações, basta preencher o fomulário abaixo para
           que possamos entrar em contato e avaliar suas necessidades.
         </Topic.Paragraph>
-        <Button>FORMULARIO</Button>
+        <Link to="/cadastro/familia">
+          <Button>FORMULARIO</Button>
+        </Link>
       </Topic>
       <Topic>
         <Topic.Title>Melhor Oferta!</Topic.Title>

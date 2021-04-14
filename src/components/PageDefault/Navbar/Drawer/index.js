@@ -99,7 +99,7 @@ export default function DrawerMenu() {
             Doador
           </Drawer.Item>
         </Link>
-        <Link to="/">
+        <Link to="/cadastro/familia">
           <Drawer.Item>
             Afiliado
           </Drawer.Item>

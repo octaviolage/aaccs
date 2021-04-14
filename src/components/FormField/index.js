@@ -7,9 +7,6 @@ const FormFieldWrapper = styled.div`
   textarea {
     min-height: 150px;
   }
-  input[type="color"] {
-    padding-left: 56px;
-  }
 `;
 
 const Label = styled.label``;
@@ -19,7 +16,7 @@ Label.Text = styled.span`
   height: 57px;
   position: absolute; 
   top: 0;
-  left: calc(30% + 15px);
+  left: ${({ position }) => {return position === "main" ? 'calc(30% + 15px);' : 'calc(10% + 15px);'}};
   
   display: flex;
   align-items: center;
@@ -41,7 +38,7 @@ const Input = styled.input`
   color: var(--grayDark);
   display: block;
   min-width: 300px;
-  width: 30%;
+  width: ${({ position }) => {return position === "main" || position === "reduced" ? '30%' : '80%'}};
   height: 57px;
   font-size: 16px;
   
@@ -51,7 +48,7 @@ const Input = styled.input`
   border-bottom: 4px solid #53585D;
   
   padding: 16px 16px;
-  margin: auto;
+  margin: ${({ position }) => {return position === "main" ? 'auto' : 'auto auto auto 10%'}};
   margin-bottom: 15px;
   
   resize: none;
@@ -75,26 +72,30 @@ const Input = styled.input`
     }
   @media(max-width: 800px){
       width: 90%;
+      margin: 3% auto auto auto;
   }
 `;
 
 function FormField({
-  label, type, name, value, onChange,
+  label, type, name, value, onChange, position
 }) {
-  const isTypeTextArea = type === 'textarea';
-  const tag = isTypeTextArea ? 'textarea' : 'input';
+
+  const isTextArea = type === 'textarea';
 
   return (
     <FormFieldWrapper>
       <Label>
         <Input
-          as={tag}
+          as={isTextArea ? 'textarea' : 'input'}
+          position={position}
           type={type}
           value={value}
           name={name}
           onChange={onChange}
         />
-        <Label.Text>
+        <Label.Text
+          position={position}
+        >
           {label}
           :
         </Label.Text>
@@ -106,6 +107,7 @@ function FormField({
 FormField.defaultProps = {
   type: 'text',
   value: '',
+  position: ''
 };
 
 FormField.propTypes = {
@@ -113,6 +115,7 @@ FormField.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string,
   value: PropTypes.string,
+  position: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 

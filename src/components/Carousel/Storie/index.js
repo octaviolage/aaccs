@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const StorieContainer = styled.div`
   width: 800px;
-  height: 800px;
+  height: 500px;
   background-image: ${({ url }) => `url(${url})`};
   background-size: cover;
   background-position: center;
@@ -34,7 +34,7 @@ export const StorieContainer = styled.div`
 
   @media (max-width: 800px) {
     width: 100vw;
-    height: 100vw;
+    height: 70vw;
   }
 `;
 
