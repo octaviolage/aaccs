@@ -44,6 +44,16 @@ Topic.Paragraph = styled.p`
     color: var(--grayDark);
 `;
 
+Topic.SubParagraph = styled.p`
+    display: inline-block;
+    margin-left: 3%;
+    margin-top: 0;
+    text-align: left;
+    font-weight: normal;
+    font-size: 14px;
+    color: var(--grayDark);
+`;
+
 Topic.Container = styled.div`
     display: flex;
     justify-content: space-between;
@@ -119,27 +129,24 @@ function Home() {
           nosso formulário para agendarmos a busca dessa doação.
         </Topic.Paragraph>
         <Topic.Container>
-          <Topic.Paragraph style={{ fontWeight: 'bold' }}>
-            Nosso endereço:
-            {' '}
+          <Topic.Paragraph>
+            <b>Nosso endereço:</b>
             <br />
-            Rua....., nº...
-            {' '}
-            <br />
-            Bairro ....., Nova Lima - MG
-            {' '}
-            <br />
-            CEP: 30.000-000
-            {' '}
-            <br />
-            {' '}
-            <br />
-            Telefone: (31) 9 9999-9999
+            <Topic.SubParagraph>
+              Rua Santa Cruz, nº 58
+              <br />
+              Bairro Centro, Nova Lima - MG
+              <br />
+              CEP: 34.000-126
+              <br />
+              Telefone: (31) 9 7300-2390
+              <br />
+              Email: aaccsconquistarsonhos@gmail.com
+            </Topic.SubParagraph>
           </Topic.Paragraph>
           <div>
             <br />
             <Button>CONTATO</Button>
-            {' '}
             <br />
             <Button>FORMULARIO</Button>
           </div>
