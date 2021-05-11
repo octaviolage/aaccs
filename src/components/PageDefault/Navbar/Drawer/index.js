@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { LoginButton } from '../../../Login'
 
 const Drawer = styled.div`
   height: 100%;
@@ -83,25 +84,21 @@ export default function DrawerMenu() {
         <Drawer.Close onClick={closeDrawer}>
           x
         </Drawer.Close>
+        <LoginButton />
         <Link to="/">
           <Drawer.Item>
             Inicio
           </Drawer.Item>
         </Link>
-        <Link to="/login">
-          <Drawer.Item>
-            Login
-          </Drawer.Item>
-        </Link>
         <Drawer.Divider />
-        <Link to="/">
+        <Link to="/cadastro/doacao">
           <Drawer.Item>
             Doador
           </Drawer.Item>
         </Link>
         <Link to="/cadastro/familia">
           <Drawer.Item>
-            Afiliado
+            Cadastro familiar
           </Drawer.Item>
         </Link>
         <Drawer.Divider />

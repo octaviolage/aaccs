@@ -45,7 +45,7 @@ const Form = styled.form`
 function CadastroFamilia() {
     const valoresIniciais = {
         nome: '',
-        telefone: '',
+        contato: '',
         pessoas: '',
         logradouro: '',
         numero: '',
@@ -78,11 +78,11 @@ function CadastroFamilia() {
                     onChange={handleChange}
                 />
                 <FormField 
-                    label="Telefone/Celular"
+                    label="Contato (telefone/e-mail)"
                     type="text"
-                    name="telefone"
+                    name="contato"
                     position="reduced"
-                    value={values.telefone}
+                    value={values.contato}
                     onChange={handleChange}
                 />
                 <FormField 

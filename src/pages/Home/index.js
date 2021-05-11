@@ -44,25 +44,28 @@ Topic.Paragraph = styled.p`
     color: var(--grayDark);
 `;
 
-Topic.SubParagraph = styled.p`
+Topic.Column = styled.p`
+    min-width: 220px;
     display: inline-block;
-    margin-left: 3%;
-    margin-top: 0;
     text-align: left;
     font-weight: normal;
     font-size: 14px;
     color: var(--grayDark);
-`;
-
-Topic.Container = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-right: 15%;
+    align-self: center;
 
     @media(max-width: 800px) {
       display: block;
       justify-content: center;
       margin: auto;
+    }
+`;
+
+Topic.Container = styled.div`
+    display: flex;
+    justify-content: center;
+
+    @media(max-width: 800px) {
+      display: block;
     }
 `;
 
@@ -132,24 +135,22 @@ function Home() {
           <Topic.Paragraph>
             <b>Nosso endereço:</b>
             <br />
-            <Topic.SubParagraph>
-              Rua Santa Cruz, nº 58
-              <br />
-              Bairro Centro, Nova Lima - MG
+            <Topic.Column>
+              Rua Santa Cruz, nº 58, Centro, Nova Lima - MG
               <br />
               CEP: 34.000-126
               <br />
               Telefone: (31) 9 7300-2390
               <br />
               Email: aaccsconquistarsonhos@gmail.com
-            </Topic.SubParagraph>
+            </Topic.Column>
           </Topic.Paragraph>
-          <div>
-            <br />
-            <Button>CONTATO</Button>
-            <br />
-            <Button>FORMULARIO</Button>
-          </div>
+          <Topic.Column/>
+          <Topic.Column>
+            <Link to="/cadastro/doacao">
+              <Button>FAZER UMA DOAÇÃO</Button>
+            </Link>
+          </Topic.Column>
         </Topic.Container>
       </Topic>
       <Topic>
@@ -160,7 +161,7 @@ function Home() {
           que possamos entrar em contato e avaliar suas necessidades.
         </Topic.Paragraph>
         <Link to="/cadastro/familia">
-          <Button>FORMULARIO</Button>
+          <Button>PARTICIPAR</Button>
         </Link>
       </Topic>
       <Topic>
