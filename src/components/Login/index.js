@@ -1,7 +1,31 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Button } from '../Button';
 import styled from 'styled-components';
+
+const Button = styled.button`
+  width: 150px;
+  height: 40px;
+  position: relative;
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid var(--primary);
+  background-color: var(--primary);
+  color: var(--white);
+  box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  cursor: pointer;
+  left: 50%;
+  margin-top: 20px;
+  transition: opacity 1;
+
+  &:hover,
+    &:focus {
+      box-shadow: none;
+    }
+`;
 
 const UserCard = styled.div`
     margin-left: 5%;
@@ -30,7 +54,7 @@ const LoginButton = () => {
                 <div>Bem vindo {user.name.split('@')[0]}!</div>
                 <br/>
             </UserCard>
-            <Button onClick={() => logout({ returnTo: window.location.origin })}>
+            <Button onClick={ ()=> logout({ returnTo: window.location.origin })}>
                 Log Out
             </Button>
         </>

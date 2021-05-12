@@ -52,6 +52,7 @@ function CadastroDoacao() {
                     type="text"
                     name="nome"
                     value={values.nome}
+                    required="True"
                     onChange={handleChange}
                 />
                 <FormField 
@@ -60,6 +61,7 @@ function CadastroDoacao() {
                     name="contato"
                     position="reduced"
                     value={values.contato}
+                    required="True"
                     onChange={handleChange}
                 />
                 <FormField 
@@ -68,6 +70,7 @@ function CadastroDoacao() {
                     name="item"
                     position="textarea"
                     value={values.item}
+                    required="True"
                     onChange={handleChange}
                 />
                 <br />

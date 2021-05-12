@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { CadastroFamilia } from './pages/cadastros/Familia';
 import { CadastroDoacao } from './pages/cadastros/Doacao';
+import { ListagemFamilias } from './pages/listagem/familias';
 import { Auth0Provider } from "@auth0/auth0-react";
 
 ReactDOM.render(
@@ -17,6 +18,7 @@ ReactDOM.render(
       <Switch>
         <Route path="/cadastro/familia" component={CadastroFamilia} exact />
         <Route path="/cadastro/doacao" component={CadastroDoacao} exact />
+        <Route path="/familias" component={ListagemFamilias} exact />
         <Route component={Home} exact />
 
       </Switch>

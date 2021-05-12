@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
-const FormFieldWrapper = styled.div`
+const FormFieldWrapper = styled.div `
   position: relative;
   textarea {
     min-height: 150px;
   }
 `;
 
-const Label = styled.label``;
+const Label = styled.label ``;
 
-Label.Text = styled.span`
+Label.Text = styled.span `
   color: var(--grayDark);
   height: 57px;
   position: absolute; 
@@ -33,7 +33,7 @@ Label.Text = styled.span`
   }
 `;
 
-const Input = styled.input`
+const Input = styled.input `
   background: var(--grayLight);
   color: var(--grayDark);
   display: block;
@@ -63,11 +63,11 @@ const Input = styled.input`
   }
   ${({ value }) => {
     const hasValue = value.length > 0;
-    return hasValue && css`
-        &:not([type='color']) + ${Label.Text} {
-          transform: scale(.6) translateY(-10px);
-        }
-      `;
+    return hasValue && css` 
+    &:not([type = 'color']) + ${Label.Text} {
+        transform: scale(.6) translateY(-10px);
+    }
+`;
       }
     }
   @media(max-width: 800px){
@@ -77,46 +77,50 @@ const Input = styled.input`
 `;
 
 function FormField({
-  label, type, name, value, onChange, position
+    label,
+    type,
+    name,
+    value,
+    required,
+    onChange,
+    position
 }) {
 
-  const isTextArea = type === 'textarea';
+    const isTextArea = type === 'textarea';
 
-  return (
-    <FormFieldWrapper>
-      <Label>
-        <Input
-          as={isTextArea ? 'textarea' : 'input'}
-          position={position}
-          type={type}
-          value={value}
-          name={name}
-          onChange={onChange}
-        />
-        <Label.Text
-          position={position}
-        >
-          {label}
-          :
-        </Label.Text>
-      </Label>
-    </FormFieldWrapper>
-  );
+    return ( 
+      <FormFieldWrapper >
+        <Label >
+        <Input as = { isTextArea ? 'textarea' : 'input' }
+        position = { position }
+        type = { type }
+        value = { value }
+        name = { name }
+        required = { required }
+        onChange = { onChange }
+        /> 
+        <Label.Text position = { position } >
+        { label }:
+        </Label.Text> 
+        </Label> 
+        </FormFieldWrapper>
+    );
 }
 
 FormField.defaultProps = {
-  type: 'text',
-  value: '',
-  position: ''
+    type: 'text',
+    value: '',
+    position: ''
 };
 
 FormField.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string,
-  value: PropTypes.string,
-  position: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+    label: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string,
+    value: PropTypes.string,
+    position: PropTypes.string,
+    required: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
 };
 
 export { FormField };
