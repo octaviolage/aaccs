@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { approveFamily } from '../../../api';
 
 const FamilyCardContainer = styled.div`
     width: 90%;
@@ -19,15 +20,22 @@ FamilyCardContainer.Imagem = styled.img`
     float: right;
 `;
 
-function FamilyCard({ nome, contato, endereco, necessidade, aprovacao, imagem }) {
-    aprovacao = aprovacao !== true ? false: true;
+function FamilyCard({ id, nome, contato, endereco, necessidade, aprovacao, imagem }) {
+    const [value, setValue] = useState(aprovacao)
+    function handleChange() {
+        setValue(!value)
+        approveFamily(id, value)
+    }
+
     return (
     <FamilyCardContainer>
-            <p>nome: {nome}</p>
+            <p>Solicitante: {nome}</p>
             <p>contato: {contato}</p>
             <p>endereco: {endereco}</p>
             <p>necessidade: {necessidade}</p>
-            <p>Aprovado: <input type="checkbox" checked={aprovacao}></input></p>
+            <p>Aprovado: 
+                <input type="checkbox" checked={value} onChange={handleChange}/>
+            </p>
         {/* <FamilyCardContainer.Imagem src={imagem} alt={nome}/> */}
     </FamilyCardContainer>
   );

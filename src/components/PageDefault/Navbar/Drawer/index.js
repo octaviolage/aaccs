@@ -91,6 +91,12 @@ export default function DrawerMenu() {
           </Drawer.Item>
         </Link>
         <Drawer.Divider />
+        <Link to="/familias">
+          <Drawer.Item>
+            Ver famílias
+          </Drawer.Item>
+        </Link>
+        <Drawer.Divider />
         <Link to="/cadastro/doacao">
           <Drawer.Item>
             Doador

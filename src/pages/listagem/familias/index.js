@@ -23,12 +23,10 @@ const Title = styled.h1`
 
 
 function ListagemFamilias() {
-    const obj = {
-        id: ''
-    }
+    
     const [familias, setFamilias] = useState([]);
     useEffect(() => {
-        getPokemons('familias', obj)
+        getPokemons('familias')
           .then((familias) => {
             setFamilias(familias);
           })
@@ -37,11 +35,6 @@ function ListagemFamilias() {
           });
       }, []);
     
-    function handleClick(event) {
-        // getPokemons('familias', obj)
-        setFamilias(['Texto', 'Outro texto'])
-    }
-    console.log()
     return (
         <PageDefault >
             <Title > Listagem de famílias </Title>
@@ -49,6 +42,7 @@ function ListagemFamilias() {
                 return (
                     <>
                         <FamilyCard
+                        id={familia.identificador}
                         nome={familia.nome}
                         contato={familia.contato}
                         endereco={familia.endereco}

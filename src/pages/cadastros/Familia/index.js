@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FormField } from '../../../components/FormField';
 import { FileField } from '../../../components/FileField';
 import { Button } from '../../../components/Button';
 import { useForm } from '../../../components/hooks/useForm';
 import { PageDefault } from '../../../components/PageDefault';
-import { getPokemons, postPokemons } from '../../../api';
+import { postPokemons } from '../../../api';
+
 
 const Title = styled.h1`
     position: relative;
@@ -58,26 +59,33 @@ function CadastroFamilia() {
     };
 
     const { handleChange, values, clearForm } = useForm(valoresIniciais);
+    const [imageBase64, setImage] = useState('');
 
     function handleSubmit(event) {
         event.preventDefault();
-        console.log(event)
         const obj = {
+            // imagem: imageBase64,
             nome: values.nome,
             contato: values.contato,
-            endereco: values.logradouro,
             necessidade: values.necessidade,
-
-
+            endereco: `${values.logradouro}, ${values.numero}, ${values.bairro}, ${values.cidade}, ${values.estado}`,
         }
         postPokemons('familias', obj)
         clearForm();
     }
 
-    function handleClick() {
-        const obj = { id: 1 }
-        getPokemons('familias', obj)
-    }
+    async function getBase64(event) {
+        handleChange(event)
+        const file = event.target.files[0]
+        if (file){
+            new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => setImage(reader.result);
+                reader.onerror = error => reject(error);
+                });
+        }
+    };
 
     return (
         <PageDefault >
@@ -149,13 +157,12 @@ function CadastroFamilia() {
                 <FileField type="file"
                     name="imagem"
                     value={values.imagem}
-                    onChange={handleChange}
+                    onChange={getBase64}
                     accept="image/*"
                     multiple={true}
                 /> <br />
                 <Button type="submit" > Enviar </Button>
             </Form>
-            < button onClick={handleClick} > Clique aqui </button>
         </PageDefault >
     )
 }
