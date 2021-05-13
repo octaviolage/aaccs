@@ -23,8 +23,9 @@ FamilyCardContainer.Imagem = styled.img`
 function FamilyCard({ id, nome, contato, endereco, necessidade, aprovacao, imagem }) {
     const [value, setValue] = useState(aprovacao)
     function handleChange() {
-        setValue(!value)
-        approveFamily(id, value)
+        const approv = value ? false : true;
+        setValue(approv)
+        approveFamily(id, approv)
     }
 
     return (
