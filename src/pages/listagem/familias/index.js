@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { PageDefault } from '../../../components/PageDefault';
-import { getPokemons } from '../../../api';
 import { FamilyCard } from '../../../components/Card/Familia';
+import { getPokemons } from '../../../api';
 
 const Title = styled.h1`
     position: relative;
@@ -20,8 +20,6 @@ const Title = styled.h1`
     }
 `;
 
-
-
 function ListagemFamilias() {
     
     const [familias, setFamilias] = useState([]);
@@ -38,7 +36,7 @@ function ListagemFamilias() {
     return (
         <PageDefault >
             <Title > Listagem de famílias </Title>
-            {familias.map((familia, indice) => {
+            {familias.map((familia) => {
                 return (
                     <>
                         <FamilyCard
@@ -53,7 +51,7 @@ function ListagemFamilias() {
                     </>
                 )
             })}
-            {/* <button handleClick={handleClick}>Clique aqui para mudar</button> */}
+            
         </PageDefault >
     )
 }

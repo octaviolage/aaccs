@@ -1,5 +1,7 @@
 import { token } from './token.json';
 import axios from 'axios';
+import familias from '../fakedb/familias.json';
+import doadores from '../fakedb/doadores.json';
 
 const URL_BASE = "https://melhor-oferta.herokuapp.com/api";
 
@@ -17,6 +19,12 @@ export async function getPokemons(tabela, id = '', url = URL_BASE) {
             else {
                 console.log('Erro de comunicação com a API')
                 console.log(response)
+                if (tabela === 'doadores'){
+                    return doadores
+                }
+                else if (tabela === 'familias'){
+                    return familias
+                }
             }
         })
         return pokemons;
@@ -55,6 +63,7 @@ export async function getPokemons(tabela, id = '', url = URL_BASE) {
                 else {
                     console.log('Erro de comunicação com a API')
                     console.log(response)
+                    return []
                 }
         })
 }

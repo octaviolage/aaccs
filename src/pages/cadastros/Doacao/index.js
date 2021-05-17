@@ -4,6 +4,7 @@ import { FormField } from '../../../components/FormField';
 import { Button } from '../../../components/Button';
 import { useForm } from '../../../components/hooks/useForm';
 import { PageDefault } from '../../../components/PageDefault';
+import { postPokemons } from '../../../api';
 
 const Title = styled.h1`
     position: relative;
@@ -38,8 +39,13 @@ function CadastroDoacao() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        console.log(event)
-        //TODO: Calls login function
+        const obj = {
+            // imagem: imageBase64,
+            nome: values.nome,
+            contato: values.contato,
+            item: values.item,
+        }
+        postPokemons('familias', obj)
         clearForm();
     }
     
@@ -74,7 +80,7 @@ function CadastroDoacao() {
                     onChange={handleChange}
                 />
                 <br />
-                <Button type="submit">
+                <Button type="submit" onClick={handleSubmit}>
                     Enviar
                 </Button>
             </Form>
