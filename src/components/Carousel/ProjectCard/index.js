@@ -54,14 +54,14 @@ export const ProjectCardContainer = styled.a`
 
 function ProjectCard({ title, projectURL, imagePath }) {
   return (
-    <ProjectCardContainer
-      url={imagePath}
-      href={projectURL}
-      target="_blank"
-      style={{ borderColor: 'var(--primary)' }}
-      title={title}
-    >
-      <span style={{ color: 'white' }}>{title}</span>
+      <ProjectCardContainer
+        url={imagePath}
+        href={projectURL}
+        target="_blank"
+        style={{ borderColor: 'var(--primary)' }}
+        title={title}
+      >
+        <span style={{ color: 'white' }}>{title}</span>
     </ProjectCardContainer>
   );
 }

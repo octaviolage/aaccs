@@ -40,12 +40,11 @@ function CadastroDoacao() {
     function handleSubmit(event) {
         event.preventDefault();
         const obj = {
-            // imagem: imageBase64,
             nome: values.nome,
             contato: values.contato,
-            item: values.item,
+            item_doado: values.item,
         }
-        postPokemons('familias', obj)
+        postPokemons('doadores', obj)
         clearForm();
     }
     

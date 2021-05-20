@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { LoginButton } from '../../../Login'
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Drawer = styled.div`
   height: 100%;
@@ -15,14 +16,13 @@ const Drawer = styled.div`
   padding-top: 60px;
 `;
 
-Drawer.Item = styled.a`
-  padding: 8px 8px 8px 50px;
+Drawer.Item = styled.p`
+  padding: 1px 1px 1px 50px;
   text-decoration: none;
   font-size: 18px;
   color: var(--grayLight);
   display: flex;
   transition: 0.3s;
-  margin-left: 5px;
   cursor: pointer;
 
   &:hover {
@@ -32,7 +32,7 @@ Drawer.Item = styled.a`
 
 Drawer.Close = styled(Drawer.Item)`
   position: absolute;
-  top: 0;
+  top: -25px;
   left: -40px;
   font-size: 30px;
   font-family: sans-serif;
@@ -68,9 +68,76 @@ Drawer.Overlay = styled.div`
 
 export default function DrawerMenu() {
   const [width, setWidth] = React.useState(0);
+  const { isAuthenticated } = useAuth0();
 
   function closeDrawer() { setWidth(0); }
   function openDrawer() { setWidth('250px'); }
+
+  if (isAuthenticated) {
+    return (
+      <>
+        <Drawer style={{
+          width: `${width}`,
+          boxShadow: `${width
+            ? `1px 0px var(--primary)`
+            : '0px 0px'}`,
+        }}
+        >
+          <Drawer.Close onClick={closeDrawer}>
+            x
+          </Drawer.Close>
+          <LoginButton />
+          <Link to="/">
+            <Drawer.Item>
+              Inicio
+            </Drawer.Item>
+          </Link>
+              <Drawer.Divider />
+              <Link to="/familias">
+                <Drawer.Item>
+              Famílias cadastradas
+                </Drawer.Item>
+              </Link>
+              <Link to="/doacoes">
+                <Drawer.Item>
+              Doações cadastradas
+                </Drawer.Item>
+              </Link>
+            <Drawer.Divider />
+          <Link to="/cadastro/doacao">
+            <Drawer.Item>
+            Doador
+            </Drawer.Item>
+          </Link>
+          <Link to="/cadastro/familia">
+            <Drawer.Item>
+            Cadastro familiar
+            </Drawer.Item>
+          </Link>
+          <Drawer.Divider />
+          <Link to="/">
+            <Drawer.Item>
+            História
+            </Drawer.Item>
+          </Link>
+          <Link to="/">
+            <Drawer.Item>
+            Nossos projetos
+            </Drawer.Item>
+          </Link>
+          <Link to="/">
+            <Drawer.Item>
+            Contato
+            </Drawer.Item>
+          </Link>
+        </Drawer>
+        <Drawer.Open onClick={openDrawer}>
+        |||
+        </Drawer.Open>
+        <Drawer.Overlay style={{ width: `${width ? '100%' : 0}` }} />
+      </>
+    );
+  }
 
   return (
     <>
@@ -88,12 +155,6 @@ export default function DrawerMenu() {
         <Link to="/">
           <Drawer.Item>
             Inicio
-          </Drawer.Item>
-        </Link>
-        <Drawer.Divider />
-        <Link to="/familias">
-          <Drawer.Item>
-            Ver famílias
           </Drawer.Item>
         </Link>
         <Drawer.Divider />

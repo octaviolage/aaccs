@@ -64,19 +64,25 @@ function CadastroFamilia() {
     function handleSubmit(event) {
         event.preventDefault();
         const obj = {
-            // imagem: imageBase64,
+            imagem: imageBase64,
             nome: values.nome,
             contato: values.contato,
             necessidade: values.necessidade,
             endereco: `${values.logradouro}, ${values.numero}, ${values.bairro}, ${values.cidade}, ${values.estado}`,
         }
+        console.log(obj)
         postPokemons('familias', obj)
         clearForm();
     }
 
-    async function getBase64(event) {
+    function handle(){
+        console.log(imageBase64)
+    }
+
+    function getBase64(event) {
         handleChange(event)
         const file = event.target.files[0]
+        setImage(file)
         if (file){
             new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -158,10 +164,11 @@ function CadastroFamilia() {
                     name="imagem"
                     value={values.imagem}
                     onChange={getBase64}
+                    
                     accept="image/*"
                     multiple={true}
                 /> <br />
-                <Button type="submit" > Enviar </Button>
+                <Button type="submit" onMouseOver={''}> Enviar </Button>
             </Form>
         </PageDefault >
     )
