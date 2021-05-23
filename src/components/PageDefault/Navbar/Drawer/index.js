@@ -1,194 +1,155 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { LoginButton } from '../../../Login'
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Collapse from '@material-ui/core/Collapse';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import HomeIcon from '@material-ui/icons/Home';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import EditIcon from '@material-ui/icons/Edit';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import MenuIcon from '@material-ui/icons/Menu';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import { useAuth0 } from "@auth0/auth0-react";
+import { LoginButton } from '../../../Login'
 
-const Drawer = styled.div`
-  height: 100%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  right: 0;
-  background-color: var(--grayDark);
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
-`;
+const useStyles = makeStyles({
+    list: {
+        width: '300px',
+    },
+    fullList: {
+        width: 'auto',
+        backgroundColor: 'var(--grayDark)'
+    },
+    drawer: {
+        backgroundColor: 'var(--grayDark)',
+        minHeight: '100%',
+        width: 250,
+        color: 'var(--grayLight)'
+    },
+    icon: {
+        color: 'var(--grayLight)'
+    }
+});
 
-Drawer.Item = styled.p`
-  padding: 1px 1px 1px 50px;
-  text-decoration: none;
-  font-size: 18px;
-  color: var(--grayLight);
-  display: flex;
-  transition: 0.3s;
-  cursor: pointer;
+export default function TemporaryDrawer() {
+    const classes = useStyles();
+    const { isAuthenticated } = useAuth0();
+    const [state, setState] = React.useState(false);
 
-  &:hover {
-    color: var(--primary);
-  }
-`;
+    const toggleDrawer = (open) => (event) => {
+        event.preventDefault()
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setState(open);
+    };
+    const [openAdm, setOpenAdm] = React.useState(true);
+    const handleOpenAdm = () => {
+        setOpenAdm(!openAdm);
+    };
+    const [openCad, setOpenCad] = React.useState(true);
+    const handleOpenCad = () => {
+        setOpenCad(!openCad);
+    };
+    
+    const admin = () => (
+        <>
+            <ListItem button onClick={handleOpenAdm}>
+                <ListItemText primary="Administração" />
+                {openAdm ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={openAdm} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                <Link to="/edicao">
+                    <ListItem button key="edicao">
+                        <ListItemIcon><EditIcon className={classes.icon}/></ListItemIcon>
+                        <ListItemText primary="Editar textos" />
+                    </ListItem>
+                </Link>
+                    <Link to="/doacoes">
+                    <ListItem button key="doacoesCadastradas">
+                        <ListItemIcon><ListAltIcon className={classes.icon}/></ListItemIcon>
+                        <ListItemText primary="Doações Cadastradas" />
+                    </ListItem>
+                    </Link>
+                    <Link to="/familias">
+                    <ListItem button key="familiasCadastradas">
+                        <ListItemIcon><SupervisorAccountIcon className={classes.icon}/></ListItemIcon>
+                        <ListItemText primary="Familias Cadastradas" />
+                    </ListItem>
+                    </Link>
+                </List>
+            </Collapse>
+            <Divider />
+        </>
+    )
 
-Drawer.Close = styled(Drawer.Item)`
-  position: absolute;
-  top: -25px;
-  left: -40px;
-  font-size: 30px;
-  font-family: sans-serif;
-`;
-
-Drawer.Open = styled.span`
-  transform: rotate(90deg);
-  font-weight: bold;
-  font-size: 26px;
-  color: var(--white);
-  cursor: pointer;
-`;
-
-Drawer.Divider = styled.div`
-  width: 90%;
-  margin: auto;
-  border: 1px solid var(--grayMedium);
-  margin-top: 5px;
-  margin-bottom: 5px;
-`;
-
-Drawer.Overlay = styled.div`
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 0;
-  top: 0;
-  left: 0;
-  overflow-x: hidden;
-  padding-top: 60px;
-  background-color: rgba(0, 0, 0, 0.3);
-`;
-
-export default function DrawerMenu() {
-  const [width, setWidth] = React.useState(0);
-  const { isAuthenticated } = useAuth0();
-
-  function closeDrawer() { setWidth(0); }
-  function openDrawer() { setWidth('250px'); }
-
-  if (isAuthenticated) {
-    return (
-      <>
-        <Drawer style={{
-          width: `${width}`,
-          boxShadow: `${width
-            ? `1px 0px var(--primary)`
-            : '0px 0px'}`,
-        }}
-        >
-          <Drawer.Close onClick={closeDrawer}>
-            x
-          </Drawer.Close>
-          <LoginButton />
-          <Link to="/">
-            <Drawer.Item>
-              Inicio
-            </Drawer.Item>
-          </Link>
-              <Drawer.Divider />
-              <Link to="/familias">
-                <Drawer.Item>
-              Famílias cadastradas
-                </Drawer.Item>
-              </Link>
-              <Link to="/doacoes">
-                <Drawer.Item>
-              Doações cadastradas
-                </Drawer.Item>
-              </Link>
-            <Drawer.Divider />
-          <Link to="/cadastro/doacao">
-            <Drawer.Item>
-            Doador
-            </Drawer.Item>
-          </Link>
-          <Link to="/cadastro/familia">
-            <Drawer.Item>
-            Cadastro familiar
-            </Drawer.Item>
-          </Link>
-          <Drawer.Divider />
-          <Link to="/">
-            <Drawer.Item>
-            História
-            </Drawer.Item>
-          </Link>
-          <Link to="/">
-            <Drawer.Item>
-            Nossos projetos
-            </Drawer.Item>
-          </Link>
-          <Link to="/">
-            <Drawer.Item>
-            Contato
-            </Drawer.Item>
-          </Link>
-        </Drawer>
-        <Drawer.Open onClick={openDrawer}>
-        |||
-        </Drawer.Open>
-        <Drawer.Overlay style={{ width: `${width ? '100%' : 0}` }} />
-      </>
+    const list = () => (
+        <div className={classes.drawer}
+            role="presentation"
+        > <br />
+            <LoginButton />
+            <List>
+            <Link to="/">
+                <ListItem button key="inicio">
+                    <ListItemIcon><HomeIcon className={classes.icon}/></ListItemIcon>
+                    <ListItemText primary="Início" />
+                </ListItem>
+            </Link>
+            </List>
+            <Divider />
+            <ListItem button onClick={handleOpenCad}>
+                <ListItemText primary="Cadastros" />
+                {openCad ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={openCad} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <Link to="/cadastro/doacao">
+                    <ListItem button key="doacao">
+                        <ListItemIcon><PostAddIcon className={classes.icon}/></ListItemIcon>
+                        <ListItemText primary="Doação" />
+                    </ListItem>
+                  </Link>
+                    <Link to="/cadastro/familia">
+                      <ListItem button key="familia">
+                          <ListItemIcon><GroupAddIcon className={classes.icon}/></ListItemIcon>
+                          <ListItemText primary="Família" />
+                      </ListItem>
+                    </Link>
+                    
+                </List>
+            </Collapse>
+            <Divider />
+            {isAuthenticated ? admin() : null}
+            <List>
+            <Link to="/ofertas">
+                <ListItem button key="melhorOferta">
+                    <ListItemIcon><AttachMoneyIcon className={classes.icon}/></ListItemIcon>
+                    <ListItemText primary="Melhor Oferta!" />
+                </ListItem>
+            </Link>
+            </List>
+        </div>
     );
-  }
 
-  return (
-    <>
-      <Drawer style={{
-        width: `${width}`,
-        boxShadow: `${width
-          ? `1px 0px var(--primary)`
-          : '0px 0px'}`,
-      }}
-      >
-        <Drawer.Close onClick={closeDrawer}>
-          x
-        </Drawer.Close>
-        <LoginButton />
-        <Link to="/">
-          <Drawer.Item>
-            Inicio
-          </Drawer.Item>
-        </Link>
-        <Drawer.Divider />
-        <Link to="/cadastro/doacao">
-          <Drawer.Item>
-            Doador
-          </Drawer.Item>
-        </Link>
-        <Link to="/cadastro/familia">
-          <Drawer.Item>
-            Cadastro familiar
-          </Drawer.Item>
-        </Link>
-        <Drawer.Divider />
-        <Link to="/">
-          <Drawer.Item>
-            História
-          </Drawer.Item>
-        </Link>
-        <Link to="/">
-          <Drawer.Item>
-            Nossos projetos
-          </Drawer.Item>
-        </Link>
-        <Link to="/">
-          <Drawer.Item>
-            Contato
-          </Drawer.Item>
-        </Link>
-      </Drawer>
-      <Drawer.Open onClick={openDrawer}>
-        |||
-      </Drawer.Open>
-      <Drawer.Overlay style={{ width: `${width ? '100%' : 0}` }} />
-    </>
-  );
+    return (
+        <div>
+            <React.Fragment key='right'>
+                <Button onClick={toggleDrawer(true)}><MenuIcon className={classes.icon}/></Button>
+                <Drawer anchor='right' open={state} onClose={toggleDrawer(false)} >
+                    {list()}
+                </Drawer>
+            </React.Fragment>
+        </div>
+    );
 }

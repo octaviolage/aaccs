@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Banner } from '../../components/Banner';
 import { PageDefault } from '../../components/PageDefault';
 import { Slider } from '../../components/Carousel';
-import { ProjectCard } from '../../components/Carousel/ProjectCard';
 import { Storie } from '../../components/Carousel/Storie';
 import { Button } from '../../components/Button';
+import ProjectModal from '../../components/modal/ProjectModal';
 
 import { stories } from '../../content/stories'
 import agriculturaImg from '../../assets/img/agricultura.jpg';
@@ -70,6 +70,11 @@ Topic.Container = styled.div`
 `;
 
 function Home() {
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <PageDefault>
       <Banner />
@@ -92,34 +97,28 @@ function Home() {
           colaborar para o desenvolvimento local. Veja nossos projetos:
         </Topic.Paragraph>
         <Slider speed={500}>
-          <ProjectCard
+          <ProjectModal
             title="Arte e Cultura"
-            projectURL="/"
             imagePath={arteImg}
           />
-          <ProjectCard
+          <ProjectModal
             title="Agricultura familiar"
-            projectURL="/"
             imagePath={agriculturaImg}
           />
-          <ProjectCard
+          <ProjectModal
             title="Esporte e Lazer"
-            projectURL="/"
             imagePath={esporteImg}
           />
-          <ProjectCard
+          <ProjectModal
             title="Caravana Encantada"
-            projectURL="/"
             imagePath={caravanaImg}
           />
-          <ProjectCard
+          <ProjectModal
             title="Educação Ambiental"
-            projectURL="/"
             imagePath={sustentabilidadeImg}
           />
-          <ProjectCard
+          <ProjectModal
             title="Conquistar Sonhos"
-            projectURL="/"
             imagePath={sonhosImg}
           />
         </Slider>
@@ -170,7 +169,9 @@ function Home() {
           Conheça nossa ferramenta “Melhor Oferta!” para saber onde comprar
           os itens da cesta básica mais em conta perto de você.
         </Topic.Paragraph>
-        <Button>MELHOR OFERTA!</Button>
+        <Link to="/ofertas">
+          <Button>MELHOR OFERTA!</Button>
+        </Link>
       </Topic>
     </PageDefault>
   );

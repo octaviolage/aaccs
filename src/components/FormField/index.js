@@ -28,7 +28,7 @@ Label.Text = styled.span `
   
   transition: .1s ease-in-out;
 
-  @media(max-width: 815px){
+  @media(max-width: 800px){
       left: calc(10%);
   }
 `;

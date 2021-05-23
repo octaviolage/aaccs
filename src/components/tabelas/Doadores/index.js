@@ -11,15 +11,36 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import TransitionsModal from '../../modal/Transition';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import styled from 'styled-components';
 import { deletePokemon } from '../../../api';
 import { useAuth0 } from "@auth0/auth0-react";
 
-const Image = styled.img`
-    width: 90%;
-    margin: auto;
+const Button = styled.button`
+    width: 150px;
+    height: 40px;
+    position: relative;
+    border-radius: 5px;
+    outline: none;
+    border: 2px solid var(--warning);
+    background-color: var(--warning);
+    color: var(--white);
+    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    cursor: pointer;
+    left: 50%;
+    margin-top: 20px;
+    transition: opacity 1;
+
+    &:hover,
+      &:focus {
+        box-shadow: none;
+      }
 `;
 
 const useRowStyles = makeStyles({
@@ -91,7 +112,14 @@ function Row(props) {
           {row.nome}
         </TableCell>
         <TableCell>{row.contato}</TableCell>
-        <TableCell><button id={row.id} onClick={handleDelete}>apagar</button></TableCell>
+        <TableCell>
+          <TransitionsModal
+            displayName="Excluir"
+          >
+            <h3>Tem certeza que deseja excluir este cadastro? </h3>
+            <Button id={row.id} onClick={handleDelete}>Sim, excluir!</Button>
+          </TransitionsModal>
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -109,7 +137,7 @@ function Row(props) {
   );
 }
 
-export function DonorTable({users, token}) {
+function DonorTable({users, token}) {
     const rows = [];
     for(let i = 0; i < users.length; i++){
         rows.push(
@@ -141,4 +169,4 @@ export function DonorTable({users, token}) {
     </TableContainer>
   );
 }
-export default  { DonorTable };
+export { DonorTable };

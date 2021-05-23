@@ -24,16 +24,24 @@ export async function getPokemons(table, token, id = '') {
 }
 
 export async function postPokemons(table, obj) {
-    await axios.post(`${URL_BASE}/${table}`, obj)
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            else {
-                console.log('Erro de comunicação com a API')
-                console.log(response)
-            }
-        })
+    try {
+        await axios.post(`${URL_BASE}/${table}`, obj)
+            .then((response) => {
+                if (response.status === 201) {
+                    window.alert("Cadastros efetuado com sucesso!");
+                }
+                else {
+                    window.alert(
+                        "Parece que o servidor esta com problemas...\nPor favor volte mais tarde"
+                        );
+                }
+            })
+    }
+    catch {
+        window.alert(
+            "Sua imagem é grande demais ou não é um formato válido"
+            );
+    }
 }
 
 export async function deletePokemon(table, id, token) {
@@ -47,7 +55,16 @@ export async function deletePokemon(table, id, token) {
         }
     )
         .then((response) => {
-            return response.status;
+            if (response.status <= 299){
+                window.alert('Familia removida com sucesso')
+                document.location.reload()
+              }
+              else if (400 <= response.status <= 499){
+                window.alert('Tem algo errado. Você esta logado?')
+              }
+              else {
+                window.alert('Parece que temos um probleminha por aqui...')
+              }
         })
 }
 
@@ -102,4 +119,8 @@ export async function approveFamily(id, value, token) {
                 return []
             }
         })
+}
+
+export function editaTexto() {
+    
 }

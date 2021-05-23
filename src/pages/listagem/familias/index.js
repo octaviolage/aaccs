@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
 import styled from 'styled-components';
 import { useAuth0 } from "@auth0/auth0-react";
 import { PageDefault } from '../../../components/PageDefault';
@@ -62,7 +62,7 @@ function ListagemFamilias() {
   const [token, setToken] = useState([]);
 
   async function handleExport() {
-    const csv = await exportPokemons('familias', token)
+    await exportPokemons('familias', token)
   }
 
   useEffect(() => {
@@ -83,9 +83,9 @@ function ListagemFamilias() {
     fetchToken()
   }, [getAccessTokenSilently]);
 
-  // if(!isAuthenticated) {
-  //   return <Redirect to="/" />
-  // }
+  if(!isAuthenticated) {
+    return <Redirect to="/" />
+  }
 
   return (
     <PageDefault >

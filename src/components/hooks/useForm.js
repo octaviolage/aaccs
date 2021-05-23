@@ -17,7 +17,7 @@ function useForm(valoresIniciais) {
     );
   }
 
-  function clearForm() {
+  function clearForm(valoresIniciais) {
     setValue(valoresIniciais);
   }
 

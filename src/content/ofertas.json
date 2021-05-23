@@ -1,0 +1,37 @@
+[
+    {
+        "nome": "Arroz 5kg",
+        "imagem": "",
+        "descricao": "Pacote de arroz Tipo I 5kg",
+        "preco": 10.57,
+        "url": "https://www.supermuffato.com"
+    },
+    {
+        "nome": "Feijao 1kg",
+        "imagem": "",
+        "descricao": "Pacote de feijao 1kg",
+        "preco": 15.99,
+        "url": "https://www.supermuffato.com"
+    },
+    {
+        "nome": "Óleo Liza 1L",
+        "imagem": "https://images-americanas.b2w.io/produtos/01/00/img/42113/2/42113281_1GG.jpg",
+        "descricao": "Óleo de cozinha a base de milho",
+        "preco": 8.32,
+        "url": "https://www.supermuffato.com"
+    },
+    {
+        "nome": "Biscoito Creme Cracker",
+        "imagem": "",
+        "descricao": "Pacote de biscoito 240g",
+        "preco": 4.99,
+        "url": "https://www.supermuffato.com"
+    },
+    {
+        "nome": "Açucar 5kg",
+        "imagem": "https://www.paodeacucar.com/img/uploads/1/542/458542.jpg",
+        "descricao": "Pacote de açucar refinado 5kg",
+        "preco": 6.57,
+        "url": "https://www.supermuffato.com"
+    }
+]

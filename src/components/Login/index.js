@@ -63,7 +63,10 @@ const LoginButton = () => {
       );
   else
     return (
+      <>
+        <br /><br />
         <Button onClick={() => loginWithRedirect()}>LogIn</Button>
+      </>
     );
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const ProjectCardContainer = styled.a`
+export const ProjectCardContainer = styled.button`
   width: 200px;
   height: 140px;
   border-radius: 10px;
@@ -19,6 +19,7 @@ export const ProjectCardContainer = styled.a`
   flex: 0 0 298px;
   align-items: flex-end;
   transition: width 0.3s;
+  padding: 0;
   &:hover,
   &:focus {
     width: calc(200px + 3vw);
@@ -35,7 +36,7 @@ export const ProjectCardContainer = styled.a`
     width: 100%;
     height: 40%;
     background-color: rgba(0, 0, 0, 0.8);
-    padding: 20px;
+    padding: 12px;
     font-weight: bold;
     font-size: 16px;
     display: none;
@@ -52,12 +53,10 @@ export const ProjectCardContainer = styled.a`
   }
 `;
 
-function ProjectCard({ title, projectURL, imagePath }) {
+function ProjectCard({ title, imagePath }) {
   return (
       <ProjectCardContainer
         url={imagePath}
-        href={projectURL}
-        target="_blank"
         style={{ borderColor: 'var(--primary)' }}
         title={title}
       >

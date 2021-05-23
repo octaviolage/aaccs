@@ -7,7 +7,8 @@ import { CadastroFamilia } from './pages/cadastros/Familia';
 import { CadastroDoacao } from './pages/cadastros/Doacao';
 import { ListagemFamilias } from './pages/listagem/familias';
 import { ListagemDoadores } from './pages/listagem/doadores';
-import { Teste } from './pages/teste';
+import { Configuracao } from './pages/configuracao';
+import { MelhorOferta } from './pages/melhorOferta';
 import { Auth0Provider } from "@auth0/auth0-react";
 
 ReactDOM.render(
@@ -22,9 +23,10 @@ ReactDOM.render(
       <Switch>
         <Route path="/cadastro/familia" component={CadastroFamilia} exact />
         <Route path="/cadastro/doacao" component={CadastroDoacao} exact />
-        <Route path="/familias" component={ListagemFamilias} exact />
+        <Route path="/edicao" component={Configuracao} exact />
         <Route path="/doacoes" component={ListagemDoadores} exact />
-        <Route path="/teste" component={Teste} exact />
+        <Route path="/familias" component={ListagemFamilias} exact />
+        <Route path="/ofertas" component={MelhorOferta} exact />
         <Route component={Home} exact />
 
       </Switch>

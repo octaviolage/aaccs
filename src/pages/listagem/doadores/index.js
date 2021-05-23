@@ -1,10 +1,35 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router';
 import styled from 'styled-components';
 import { useAuth0 } from "@auth0/auth0-react";
 import { PageDefault } from '../../../components/PageDefault';
 import { getPokemons, exportPokemons } from '../../../api';
 import { DonorTable } from '../../../components/tabelas/Doadores';
 
+const Button = styled.button`
+  width: 150px;
+  height: 40px;
+  position: relative;
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid var(--primary);
+  background-color: var(--primary);
+  color: var(--white);
+  box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  cursor: pointer;
+  left: 50%;
+  margin-top: 20px;
+  transition: opacity 1;
+
+  &:hover,
+    &:focus {
+      box-shadow: none;
+    }
+`;
 const Title = styled.h1`
     position: relative;
     display: block;
@@ -58,9 +83,11 @@ function ListagemDoadores() {
     fetchToken()
   }, [getAccessTokenSilently]);
 
-  // if(!isAuthenticated) {
-  //   return <Redirect to="/" />
-  // }
+  if (!isAuthenticated){
+    return (
+        <Redirect to="/" />
+    )
+}
 
   return (
     <PageDefault >
@@ -69,7 +96,7 @@ function ListagemDoadores() {
         <DonorTable users={doadores} />
       </TableWrapper>
       <br /><br />
-      <button onClick={handleExport} >Exportar dados</button>
+      <Button onClick={handleExport} >Exportar dados</Button>
     </PageDefault >
   )
 }

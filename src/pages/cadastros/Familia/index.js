@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FormField } from '../../../components/FormField';
 import { FileField } from '../../../components/FileField';
@@ -44,10 +44,18 @@ const Form = styled.form`
     align-self: auto;
 `;
 
+const Texto = styled.p`
+    margin-left: 10%;
+    @media(max-width: 800px) {
+        margin-left: 5%;
+    }
+`;
+
 function CadastroFamilia() {
     const valoresIniciais = {
         nome: '',
-        contato: '',
+        telefone: '',
+        email: '',
         pessoas: '',
         logradouro: '',
         numero: '',
@@ -61,58 +69,66 @@ function CadastroFamilia() {
     const { handleChange, values, clearForm } = useForm(valoresIniciais);
     const [imageBase64, setImage] = useState('');
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
         const obj = {
             imagem: imageBase64,
             nome: values.nome,
-            contato: values.contato,
+            contato: `${values.telefone};${values.email}`,
             necessidade: values.necessidade,
             endereco: `${values.logradouro}, ${values.numero}, ${values.bairro}, ${values.cidade}, ${values.estado}`,
         }
         console.log(obj)
-        postPokemons('familias', obj)
-        clearForm();
-    }
-
-    function handle(){
-        console.log(imageBase64)
+        await postPokemons('familias', obj)
+        clearForm(valoresIniciais);
     }
 
     function getBase64(event) {
         handleChange(event)
         const file = event.target.files[0]
         setImage(file)
-        if (file){
+        if (file) {
             new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = () => setImage(reader.result);
                 reader.onerror = error => reject(error);
-                });
+            });
         }
     };
+
+    
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
 
     return (
         <PageDefault >
             <Title > Cadastro familiar </Title>
             <SubTitle > Dados pessoais </SubTitle>
             <Form onSubmit={handleSubmit} >
-                <FormField label="Seu nome"
+                <FormField label="Seu nome*"
                     type="text"
                     name="nome"
                     value={values.nome}
                     required="True"
                     onChange={handleChange} />
-                <FormField label="Contato (telefone/e-mail)"
+                <FormField label="Telefone*"
                     type="text"
-                    name="contato"
+                    name="telefone"
                     position="reduced"
-                    value={values.contato}
+                    value={values.telefone}
                     required="True"
                     onChange={handleChange}
                 />
-                <FormField label="Quantas pessoas moram com você"
+                <FormField label="Email"
+                    type="email"
+                    name="email"
+                    position="reduced"
+                    value={values.email}
+                    onChange={handleChange}
+                />
+                <FormField label="Quantas pessoas moram com você*"
                     type="number"
                     name="pessoas"
                     position="reduced"
@@ -152,23 +168,23 @@ function CadastroFamilia() {
                     value={values.estado}
                     onChange={handleChange}
                 />
-                <FormField label="Necessidade"
+                <FormField label="Necessidade*"
                     type="textarea"
                     name="necessidade"
                     position="textarea"
                     value={values.necessidade}
+                    required="True"
                     onChange={handleChange}
                 />
-                <SubTitle > Envie fotos da sua família ou situação(opcional) </SubTitle>
+                <Texto>* campos obrigatórios</Texto>
+                <SubTitle > Envie uma foto da sua família ou situação(opcional) </SubTitle>
                 <FileField type="file"
                     name="imagem"
                     value={values.imagem}
                     onChange={getBase64}
-                    
                     accept="image/*"
-                    multiple={true}
                 /> <br />
-                <Button type="submit" onMouseOver={''}> Enviar </Button>
+                <Button type="submit"> Enviar </Button>
             </Form>
         </PageDefault >
     )
