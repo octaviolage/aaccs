@@ -6,6 +6,7 @@ import { PageDefault } from '../../components/PageDefault';
 import { Slider } from '../../components/Carousel';
 import { Storie } from '../../components/Carousel/Storie';
 import { Button } from '../../components/Button';
+import { Parceiros } from '../../components/Parceiros';
 import ProjectModal from '../../components/modal/ProjectModal';
 
 import { stories } from '../../content/stories'
@@ -40,7 +41,7 @@ Topic.Title = styled.h3`
 Topic.Paragraph = styled.p`
     text-align: left;
     font-weight: normal;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--grayDark);
 `;
 
@@ -49,7 +50,6 @@ Topic.Column = styled.p`
     display: inline-block;
     text-align: left;
     font-weight: normal;
-    font-size: 14px;
     color: var(--grayDark);
     align-self: center;
 
@@ -172,6 +172,10 @@ function Home() {
         <Link to="/ofertas">
           <Button>MELHOR OFERTA!</Button>
         </Link>
+      </Topic>
+      <Topic>
+        <Topic.Title>Nossos parceiros</Topic.Title>
+        <Parceiros />
       </Topic>
     </PageDefault>
   );

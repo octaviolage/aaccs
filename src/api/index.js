@@ -121,6 +121,19 @@ export async function approveFamily(id, value, token) {
         })
 }
 
-export function editaTexto() {
-    
+export async function scrapper() {
+    await axios.get(
+        `https://www.extra.com.br/cesta-b%C3%A1sica/b`,
+    )
+    .then((response) => {
+        if (response.status === 200) {
+            console.log(response.data)
+            return response;
+        }
+        else {
+            console.log('Erro de comunicação com a API')
+            console.log(response)
+            return []
+        }
+    })
 }

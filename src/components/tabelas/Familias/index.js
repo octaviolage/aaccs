@@ -14,7 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import styled from 'styled-components';
-import { deletePokemon } from '../../../api';
+import { approveFamily, deletePokemon } from '../../../api';
 import { useAuth0 } from "@auth0/auth0-react";
 import TransitionsModal from '../../modal/Transition';
 
@@ -31,8 +31,8 @@ const Button = styled.button`
     position: relative;
     border-radius: 5px;
     outline: none;
-    border: 2px solid var(--warning);
-    background-color: var(--warning);
+    border: 2px solid ${({ color }) => color? color : '#56CCF2'};
+    background-color: ${({ color }) => color? color : '#56CCF2'};
     color: var(--white);
     box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
     box-sizing: border-box;
@@ -41,6 +41,7 @@ const Button = styled.button`
     font-weight: bold;
     cursor: pointer;
     left: 50%;
+    margin: 10px;
     margin-top: 20px;
     transition: opacity 1;
 
@@ -48,6 +49,19 @@ const Button = styled.button`
       &:focus {
         box-shadow: none;
       }
+`;
+
+const ContainerButtons = styled.div`
+  max-width: 95%;
+  width: 600px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-gap: 5px;
+
+  @media(max-width: 800px) {
+    width: 100%;
+  }
 `;
 
 const useRowStyles = makeStyles({
@@ -102,6 +116,12 @@ function Row(props) {
     await deletePokemon('familias', id, token)
   }
 
+  async function handleApprove(event) {
+    const id = event.target.id
+    const value = event.target.name
+    await approveFamily(id, value, token)
+  }
+
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
@@ -117,10 +137,17 @@ function Row(props) {
         <TableCell>{row.aprovacao === null ? 'Pendente' : row.aprovacao === true ? 'Aprovado' : 'Reprovado'}</TableCell>
         <TableCell>
           <TransitionsModal
-            displayName="Excluir"
+            displayName="edit"
           >
-            <h3>Tem certeza que deseja excluir este cadastro? </h3>
-            <Button id={row.id} onClick={handleDelete}>Sim, excluir!</Button>
+            <h3>O que deseja editar no cadastro?</h3>
+            <ContainerButtons>
+              <Button id={row.id} name="true" onClick={handleApprove}>Aprovar</Button>
+              <Button id={row.id} name="false" onClick={handleApprove}>Reprovar</Button>
+              <TransitionsModal displayName="delete" color="var(--warning)">
+                <h3>Tem certeza que deseja excluir esta família?</h3>
+                <Button color="var(--warning)" id={row.id} onClick={handleDelete}>Sim, excluir!</Button>
+              </TransitionsModal>
+            </ContainerButtons>
           </TransitionsModal>
         </TableCell>
       </TableRow>

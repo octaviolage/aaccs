@@ -24,8 +24,8 @@ const Button = styled.button`
     position: relative;
     border-radius: 5px;
     outline: none;
-    border: 2px solid var(--warning);
-    background-color: var(--warning);
+    border: 2px solid ${({ color }) => color? color : '#56CCF2'};
+    background-color: ${({ color }) => color? color : '#56CCF2'};
     color: var(--white);
     box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
     box-sizing: border-box;
@@ -34,6 +34,7 @@ const Button = styled.button`
     font-weight: bold;
     cursor: pointer;
     left: 50%;
+    margin: 10px;
     margin-top: 20px;
     transition: opacity 1;
 
@@ -114,10 +115,10 @@ function Row(props) {
         <TableCell>{row.contato}</TableCell>
         <TableCell>
           <TransitionsModal
-            displayName="Excluir"
+            displayName="edit"
           >
-            <h3>Tem certeza que deseja excluir este cadastro? </h3>
-            <Button id={row.id} onClick={handleDelete}>Sim, excluir!</Button>
+            <h3>Deseja excluir este cadastro? </h3>
+            <Button color="var(--warning)"  id={row.id} onClick={handleDelete}>Sim, excluir!</Button>
           </TransitionsModal>
         </TableCell>
       </TableRow>
@@ -157,7 +158,7 @@ function DonorTable({users, token}) {
             <TableCell />
             <TableCell>Nome</TableCell>
             <TableCell >Contato</TableCell>
-            <TableCell>Excluir</TableCell>
+            <TableCell>Editar</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
