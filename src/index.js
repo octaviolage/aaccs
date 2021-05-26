@@ -14,7 +14,7 @@ import './index.css';
 ReactDOM.render(
   <BrowserRouter>
     {
-      window.location.origin.includes('http') && !window.location.origin.includes('localhost') ? 
+      !window.location.origin.includes('https') && !window.location.origin.includes('localhost') ? 
       window.location.href = "https://aaccs.herokuapp.com/" : null
     }
     <Auth0Provider
