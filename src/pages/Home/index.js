@@ -79,12 +79,13 @@ function Home() {
     <PageDefault>
       <Banner />
       <Slider speed={1500} autoplay={true} dots={true}>
-        {stories.map((storie) => {
+        {stories.map((storie, key) => {
           return (
             <Storie
               title={storie.title}
               text={storie.text}
               imagePath={storie.url}
+              key={key}
             />
           )
         })}

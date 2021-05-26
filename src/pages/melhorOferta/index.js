@@ -71,13 +71,14 @@ function MelhorOferta() {
             <Container>
 
                 <Grid>
-                    {resultados.map((oferta) => {
+                    {resultados.map((oferta, key) => {
                         return (
                             <Oferta 
                             nome={oferta.produto}
                             descricao={oferta.origem}
                             preco={oferta.preco}
                             url={oferta.link}
+                            key={key}
                             />
                         )
                     })}

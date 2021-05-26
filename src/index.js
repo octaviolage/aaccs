@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { CadastroFamilia } from './pages/cadastros/Familia';
@@ -10,9 +9,14 @@ import { ListagemDoadores } from './pages/listagem/doadores';
 import { Configuracao } from './pages/configuracao';
 import { MelhorOferta } from './pages/melhorOferta';
 import { Auth0Provider } from "@auth0/auth0-react";
+import './index.css';
 
 ReactDOM.render(
   <BrowserRouter>
+    {
+      window.location.origin.includes('http') && !window.location.origin.includes('localhost') ? 
+      window.location.href = "https://aaccs.herokuapp.com/" : null
+    }
     <Auth0Provider
       domain="aaccs-portal.us.auth0.com"
       clientId="yniD7kn38fjlg6oqiZVXPtZs466aAWuc"

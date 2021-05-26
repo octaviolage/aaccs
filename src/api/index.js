@@ -127,8 +127,6 @@ export async function getOfertas() {
     )
     .then((response) => {
         if (response.status === 200) {
-            console.log('Antes da ordenação');
-            console.log(response.data);
             const ofertas = response.data.sort( (a, b) => {
                 const precoA = parseFloat(a.preco.slice(2).replace('un.', '').replace('.', ','));
                 const precoB = parseFloat(b.preco.slice(2).replace('un.', '').replace('.', ','));

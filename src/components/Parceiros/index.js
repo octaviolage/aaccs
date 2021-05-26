@@ -32,9 +32,9 @@ function Parceiros() {
     
     return (
         <Grid>
-            {parceiros.map((parceiro) => {
+            {parceiros.map((parceiro, key) => {
                 return (
-                    <a href={parceiro.url}>
+                    <a href={parceiro.url} key={key}>
                         <Imagem alt={parceiro.nome} src={parceiro.imagem ? parceiro.imagem : imgDefault}/>
                         <Nome>{parceiro.nome}</Nome>
                     </a>
