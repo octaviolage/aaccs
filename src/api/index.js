@@ -121,18 +121,24 @@ export async function approveFamily(id, value, token) {
         })
 }
 
-export async function scrapper() {
-    await axios.get(
-        `https://www.extra.com.br/cesta-b%C3%A1sica/b`,
+export async function getOfertas() {
+    return await axios.get(
+        `${URL_BASE}/ofertas`,
     )
     .then((response) => {
         if (response.status === 200) {
-            console.log(response.data)
-            return response;
+            console.log('Antes da ordenação');
+            console.log(response.data);
+            const ofertas = response.data.sort( (a, b) => {
+                const precoA = parseFloat(a.preco.slice(2).replace('un.', '').replace('.', ','));
+                const precoB = parseFloat(b.preco.slice(2).replace('un.', '').replace('.', ','));
+                return precoA > precoB ? 1 : -1;
+            })
+            return ofertas;
         }
         else {
             console.log('Erro de comunicação com a API')
-            console.log(response)
+            console.log(response);
             return []
         }
     })

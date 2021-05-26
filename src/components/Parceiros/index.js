@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import parceiros from '../../content/parceiros.json';
 
 const Grid = styled.div`
+    margin-top: 5%;
     display: grid;
     align-items: center;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -14,6 +15,7 @@ const Imagem = styled.img`
     position: 'relative';
     margin: auto;
     width: 200px;
+    border-radius: 5px;
 `;
 
 const Nome = styled.h4`

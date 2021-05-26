@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Oferta from '../../components/cards/Oferta'
 import { PageDefault } from '../../components/PageDefault';
-import ofertas from '../../content/ofertas.json';
 import { FormField } from '../../components/FormField';
 import { useForm } from '../../components/hooks/useForm';
+import { getOfertas } from '../../api';
 
 const Title = styled.h1`
     position: relative;
@@ -34,24 +34,29 @@ const Container = styled.div`
 `;
 
 function MelhorOferta() {
-
+    
+    const [ ofertas, setOfertas ] = useState([])
+    const [ resultados, setResultados ] = useState([])
+    
     useEffect(() => {
-        const getOffers = async () => {
-            // TODO
+        const fetchToken = async () => {
+            const response = await getOfertas();
+            setOfertas(response)
+            setResultados(response)
         }
-        getOffers()
-    }, []);
+        fetchToken();
+      }, []);
     const { handleChange, values } = useForm({filtro: ''});
-    const [ resultados, setResultados ] = useState(ofertas)
 
     function filtrar(event) {
         handleChange(event)
         const filtro = event.target.value.toLowerCase();
-        const nome = ofertas.filter(oferta => oferta.nome.toLowerCase().includes(filtro));
-        const descricao = ofertas.filter(oferta => oferta.descricao.toLowerCase().includes(filtro));
-        const resultado = [...new Set(nome.concat(descricao))];
+        const produto = ofertas.filter(oferta => oferta.produto.toLowerCase().includes(filtro));
+        const origem = ofertas.filter(oferta => oferta.origem.toLowerCase().includes(filtro));
+        const resultado = [...new Set(produto.concat(origem))];
         setResultados(resultado)
     }
+
     return (
         <PageDefault>
             <Title>Melhores Ofertas!</Title>
@@ -69,11 +74,10 @@ function MelhorOferta() {
                     {resultados.map((oferta) => {
                         return (
                             <Oferta 
-                            nome={oferta.nome}
-                            descricao={oferta.descricao}
+                            nome={oferta.produto}
+                            descricao={oferta.origem}
                             preco={oferta.preco}
-                            imagem={oferta.imagem}
-                            url={oferta.url}
+                            url={oferta.link}
                             />
                         )
                     })}

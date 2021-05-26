@@ -64,11 +64,25 @@ const ContainerButtons = styled.div`
   }
 `;
 
+const Aprovado = styled.p`
+  color: green;
+  font-size: 12;
+`
+const Reprovado = styled.p`
+  color: red;
+`;
+
+
 const useRowStyles = makeStyles({
   root: {
     '& > *': {
       borderBottom: 'unset',
     },
+  },
+  header: {
+    backgroundColor: 'var(--secondary)',
+    color: 'var(--white)',
+    fontSize: 16,
   },
 });
 
@@ -134,7 +148,7 @@ function Row(props) {
           {row.nome}
         </TableCell>
         <TableCell>{row.contato}</TableCell>
-        <TableCell>{row.aprovacao === null ? 'Pendente' : row.aprovacao === true ? 'Aprovado' : 'Reprovado'}</TableCell>
+        <TableCell>{row.aprovacao === null ? 'Pendente' : row.aprovacao === true ? <Aprovado>Aprovado</Aprovado> : <Reprovado>Reprovado</Reprovado>}</TableCell>
         <TableCell>
           <TransitionsModal
             displayName="edit"
@@ -170,9 +184,14 @@ function Row(props) {
 }
 
 function FamilyTable({ users, token }) {
-  const rows = [];
+  let rows = [];
+  const classes = useRowStyles();
 
-  for (let i = 0; i < users.length; i++) {
+  const sortedList = users.sort( (a, b) => {
+    return a.aprovacao === null ? -1 : 1;
+  })
+
+  for (let i = 0; i < sortedList.length; i++) {
     rows.push(
       createData(
         users[i].identificador,
@@ -185,21 +204,23 @@ function FamilyTable({ users, token }) {
       )
     )
   }
+  
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
+        <TableHead className={classes.header}>
+          <TableRow >
             <TableCell />
-            <TableCell>Nome</TableCell>
-            <TableCell >Contato</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Editar</TableCell>
+            <TableCell className={classes.header}>Nome</TableCell>
+            <TableCell className={classes.header}>Contato</TableCell>
+            <TableCell className={classes.header}>Status</TableCell>
+            <TableCell className={classes.header}>Ações</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.name} row={row} token={token} />
+          {rows.map((row, key) => (
+            <Row key={key} row={row} token={token} />
           ))}
         </TableBody>
       </Table>

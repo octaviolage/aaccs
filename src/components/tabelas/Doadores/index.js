@@ -50,6 +50,11 @@ const useRowStyles = makeStyles({
       borderBottom: 'unset',
     },
   },
+  header: {
+    backgroundColor: 'var(--secondary)',
+    color: 'var(--white)',
+    fontSize: 16,
+  },
 });
 
 function createData(id, nome, contato, item_doado) {
@@ -139,6 +144,7 @@ function Row(props) {
 }
 
 function DonorTable({users, token}) {
+  const classes = useRowStyles();
     const rows = [];
     for(let i = 0; i < users.length; i++){
         rows.push(
@@ -153,12 +159,12 @@ function DonorTable({users, token}) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
-        <TableHead>
+        <TableHead className={classes.header}>
           <TableRow>
             <TableCell />
-            <TableCell>Nome</TableCell>
-            <TableCell >Contato</TableCell>
-            <TableCell>Editar</TableCell>
+            <TableCell className={classes.header}>Nome</TableCell>
+            <TableCell className={classes.header}>Contato</TableCell>
+            <TableCell className={classes.header}>Editar</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

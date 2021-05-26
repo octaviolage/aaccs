@@ -13,10 +13,11 @@ const useStyles = makeStyles({
     display: 'block',
     position: 'relative',
     width: 345,
+    minHeight: 200,
     margin: 'auto'
   },
   media: {
-    height: 345,
+    height: 0,
   },
   button: {
     fontSize: 16,
@@ -27,9 +28,10 @@ export default function MediaCard({nome, descricao, imagem, url, preco}) {
   const classes = useStyles();
   const img = imagem ? imagem : 'https://www.biotecdermo.com.br/wp-content/uploads/2016/10/sem-imagem-10.jpg';
 
-  function handleClick() {
-      console.log(url)
+  function verdemarException(url) {
+    return 'https://www.verdemaratevoce.com.br' + url
   }
+  const link = descricao.toLowerCase() === 'verdemar' ? verdemarException(url) : url;
 
   return (
     <Card className={classes.root}>
@@ -50,10 +52,10 @@ export default function MediaCard({nome, descricao, imagem, url, preco}) {
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary" className={classes.button}>
-          R${preco}
+          {preco}
         </Button>
-        <a href={url}>
-        <Button size="small" color="primary" onMouseOver={handleClick} className={classes.button}>
+        <a href={link}>
+        <Button size="small" color="primary" className={classes.button}>
           Ir para a loja
         </Button>
         </a>

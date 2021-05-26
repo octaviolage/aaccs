@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 import styled from 'styled-components';
 import { useAuth0 } from "@auth0/auth0-react";
 import { PageDefault } from '../../../components/PageDefault';
@@ -55,11 +58,40 @@ const Button = styled.button`
     }
 `;
 
-function ListagemFamilias() {
+const options = [
+  { value: 'all', label: 'Todos' },
+  { value: true, label: 'Aprovado'},
+  { value: null, label: 'Pendente'},
+  { value: false, label: 'Reprovado'},
+];
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      minWidth: '25%',
+    },
+    justifyContent: 'space-around'
+  },
+  filter: {
+    verticalAlign: 'center',
+  },
+  name: {
+    width: '70%',
+  }
+}));
+
+function ListagemFamilias() {
+  const classes = useStyles();
+  const initialvalues = {
+    name: '',
+    status: 'all'
+  }
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [familias, setFamilias] = useState([]);
+  const [resultados, setResultados] = useState([]);
   const [token, setToken] = useState([]);
+  const [filtros, setFiltros ] = useState(initialvalues);
 
   async function handleExport() {
     await exportPokemons('familias', token)
@@ -73,8 +105,9 @@ function ListagemFamilias() {
           scope: "read:current_user",
         })
         const familias = await getPokemons('familias', accessToken)
-        setToken(accessToken)
+        setToken(accessToken);
         setFamilias(familias);
+        setResultados(familias);
       }
       catch {
         return window.alert('Faça login antes!')
@@ -83,15 +116,66 @@ function ListagemFamilias() {
     fetchToken()
   }, [getAccessTokenSilently]);
 
-  if(!isAuthenticated) {
+  if (!isAuthenticated) {
     return <Redirect to="/" />
+  }
+
+  const handleChange = (event) => {
+    console.log(event.target.name)
+    const filtro = filtros
+    if (event.target.name === 'select') {
+      filtro.status = event.target.value;
+      setFiltros(filtro);
+    }
+    else if (event.target.name === 'name'){
+      filtro.name = event.target.value.toLowerCase();
+      setFiltros(filtro);
+    }
+    const resultado = familias.filter(familia => familia.nome.toLowerCase().includes(filtros.name));
+
+    if (filtros.status !== 'all') {
+      console.log(resultado.filter(familia => familia.aprovacao === filtros.status))
+      setResultados(resultado.filter(familia => familia.aprovacao === filtros.status));
+    }
+    else {
+      setResultados(resultado);
+    }
   }
 
   return (
     <PageDefault >
       <Title > Listagem de famílias </Title>
+
       <TableWrapper>
-        <FamilyTable users={familias} />
+        <form className={classes.root} noValidate autoComplete="off">
+          <div>
+          <div className={classes.filter}>Filtros</div>
+            <TextField  className={classes.name}
+              id="filled-basic" 
+              label="Nome" 
+              variant="filled" 
+              onChange={handleChange}
+              name="name"
+            />
+            <TextField
+              id="standard-select-currency"
+              select
+              label="Status"
+              value={filtros}
+              onChange={handleChange}
+              helperText="Filtre o status da família"
+              variant="filled"
+              name="select"
+            >
+              {options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
+        </form>
+        <FamilyTable users={resultados} />
       </TableWrapper>
       <br /><br />
       <Button onClick={handleExport} >Exportar dados</Button>
