@@ -5,6 +5,43 @@ import { Button } from '../../../components/Button';
 import { useForm } from '../../../components/hooks/useForm';
 import { PageDefault } from '../../../components/PageDefault';
 import { postPokemons } from '../../../api';
+import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'block',
+        '& label.Mui-focused': {
+            color: 'var(--secondary)',
+        },
+        '& .MuiFilledInput-underline:after': {
+            borderBottomColor: 'var(--secondary)',
+        },
+    },
+    mobile: {
+        '& .MuiTextField-root': {
+            margin: theme.spacing(1),
+            width: '95%',
+        },
+    },
+    fullField: {
+        display: 'flex',
+        width: '80vw',
+        margin: 'auto',
+        justifyContent: 'space-between',
+    },
+    halfField: {
+        display: 'inline-flex',
+        width: '35vw'
+    },
+    thirdField: {
+        display: 'inline-flex',
+        width: '35vw',
+        marginLeft: '5.4%',
+    },
+}));
 
 const Title = styled.h1`
     position: relative;
@@ -33,7 +70,11 @@ function CadastroDoacao() {
         nome: '',
         contato: '',
         item: '',
-      };
+    };
+
+    
+    const classes = useStyles();
+    const matches = useMediaQuery('(min-width:800px)');
 
     const { handleChange, values, clearForm } = useForm(valoresIniciais);
 
@@ -54,32 +95,31 @@ function CadastroDoacao() {
     return (
         <PageDefault>
             <Title>Cadastro doação</Title>
-            <Form onSubmit={handleSubmit}>
-                <FormField 
-                    label="Seu nome"
-                    type="text"
+            <Form onSubmit={handleSubmit} className={matches ? classes.root : null}>
+                <TextField className={matches ? classes.fullField : null}
+                    required
+                    label="Nome"
+                    variant="filled"
+                    onChange={handleChange}
                     name="nome"
-                    value={values.nome}
-                    required="True"
+                /> 
+                <br />
+                <TextField className={matches ? classes.thirdField : null}
+                    required
+                    label="Contato"
+                    variant="filled"
                     onChange={handleChange}
-                />
-                <FormField 
-                    label="Contato (telefone/e-mail)"
-                    type="text"
                     name="contato"
-                    position="reduced"
-                    value={values.contato}
-                    required="True"
+                /> 
+                <br /> <br />
+                <TextField className={matches ? classes.fullField : null}
+                    required
+                    label="Descrição do item ou itens a serem doados"
+                    multiline
+                    rows={4}
+                    variant="filled"
                     onChange={handleChange}
-                />
-                <FormField 
-                    label="Item"
-                    type="textarea"
                     name="item"
-                    position="textarea"
-                    value={values.item}
-                    required="True"
-                    onChange={handleChange}
                 />
                 <br />
                 <Button type="submit" onClick={handleSubmit}>

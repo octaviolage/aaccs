@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import parceiros from '../../content/parceiros.json';
+import { parceiros } from '../../content/parceiros.js';
 
 const Grid = styled.div`
     margin-top: 5%;
@@ -34,7 +34,7 @@ function Parceiros() {
         <Grid>
             {parceiros.map((parceiro, key) => {
                 return (
-                    <a href={parceiro.url} key={key}>
+                    <a href={parceiro.url} key={key}  target="_blank" rel="noreferrer">
                         <Imagem alt={parceiro.nome} src={parceiro.imagem ? parceiro.imagem : imgDefault}/>
                         <Nome>{parceiro.nome}</Nome>
                     </a>

@@ -91,7 +91,7 @@ function ListagemDoadores() {
 
   return (
     <PageDefault >
-      <Title > Listagem de famílias </Title>
+      <Title > Listagem de doadores </Title>
       <TableWrapper>
         <DonorTable users={doadores} />
       </TableWrapper>

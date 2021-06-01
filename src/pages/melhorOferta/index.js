@@ -78,6 +78,7 @@ function MelhorOferta() {
                             descricao={oferta.origem}
                             preco={oferta.preco}
                             url={oferta.link}
+                            imagem={oferta.imagem}
                             key={key}
                             />
                         )

@@ -17,12 +17,14 @@ import styled from 'styled-components';
 import { approveFamily, deletePokemon } from '../../../api';
 import { useAuth0 } from "@auth0/auth0-react";
 import TransitionsModal from '../../modal/Transition';
+import TablePagination from '@material-ui/core/TablePagination';
 
 const Image = styled.img`
     width: 90%;
     display: block;
     margin: auto;
     border-radius: 5px;
+    max-height: 600px;
 `;
 
 const Button = styled.button`
@@ -86,19 +88,19 @@ const useRowStyles = makeStyles({
   },
 });
 
-function createData(id, nome, contato, endereco, necessidade, aprovacao, imagemurl) {
+function createData(id, nome, contato, endereco, bairro, cidade, estado, necessidade, aprovacao, imagemurl, familiares) {
   return {
     id,
     nome,
     contato,
     endereco,
+    bairro,
+    cidade,
+    estado,
     necessidade,
     aprovacao,
     imagemurl,
-    history: [
-      { date: '2020-01-05', customerId: '11091700', amount: 3 },
-      { date: '2020-01-02', customerId: 'Anonymous', amount: 1 },
-    ],
+    familiares,
   };
 }
 
@@ -131,9 +133,9 @@ function Row(props) {
   }
 
   async function handleApprove(event) {
-    const id = event.target.id
-    const value = event.target.name
-    await approveFamily(id, value, token)
+    const id = event.target.id;
+    const value = event.target.name;
+    return value.toString().includes(row.aprovacao) ? window.alert('Já é o status atual') : await approveFamily(id, value, token);
   }
 
   return (
@@ -147,8 +149,18 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.nome}
         </TableCell>
-        <TableCell>{row.contato}</TableCell>
-        <TableCell>{row.aprovacao === null ? 'Pendente' : row.aprovacao === true ? <Aprovado>Aprovado</Aprovado> : <Reprovado>Reprovado</Reprovado>}</TableCell>
+        <TableCell>
+          Telefone: {row.contato.split('|')[0]}
+          <br/>
+          Email: {row.contato.split('|')[1]}
+        </TableCell>
+        <TableCell>
+          {
+            row.aprovacao === null ? 'Pendente' 
+            : row.aprovacao === true ? <Aprovado>Aprovado</Aprovado> 
+            : <Reprovado>Reprovado</Reprovado>
+          }
+        </TableCell>
         <TableCell>
           <TransitionsModal
             displayName="edit"
@@ -172,8 +184,12 @@ function Row(props) {
               <Typography variant="h6" gutterBottom component="div">
                 Dados adicionais
               </Typography>
-              <p><b>Endereço:</b> {row.endereco}</p>
-              <p><b>Necessidade:</b> {row.necessidade}</p>
+              <div>
+                <p><b>Quantidade de pessoas na família:</b> {row.familiares}</p>
+                <p><b>Endereço:</b> {row.endereco.replace('|', ', ')} &nbsp;&nbsp; <b>Bairro:</b> {row.bairro}</p>
+                <p><b>Cidade:</b> {row.cidade} &nbsp;&nbsp; <b>Estado:</b> {row.estado}</p>
+                <p><b>Necessidade:</b> {row.necessidade}</p>
+              </div>
               {row.imagemurl ? <Image src={row.imagemurl} alt={row.nome} /> : null}
             </Box>
           </Collapse>
@@ -186,6 +202,17 @@ function Row(props) {
 function FamilyTable({ users, token }) {
   let rows = [];
   const classes = useRowStyles();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   const sortedList = users.sort( (a, b) => {
     return a.aprovacao === null ? -1 : 1;
@@ -198,9 +225,13 @@ function FamilyTable({ users, token }) {
         users[i].nome,
         users[i].contato,
         users[i].endereco,
+        users[i].bairro,
+        users[i].cidade,
+        users[i].estado,
         users[i].necessidade,
         users[i].aprovacao,
         users[i].imagemurl,
+        users[i].familiares,
       )
     )
   }
@@ -224,6 +255,15 @@ function FamilyTable({ users, token }) {
           ))}
         </TableBody>
       </Table>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </TableContainer>
   );
 }

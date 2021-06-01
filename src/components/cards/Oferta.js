@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     margin: 'auto'
   },
   media: {
-    height: 0,
+    height: 345,
   },
   button: {
     fontSize: 16,
@@ -54,7 +54,7 @@ export default function MediaCard({nome, descricao, imagem, url, preco}) {
         <Button size="small" color="primary" className={classes.button}>
           {preco}
         </Button>
-        <a href={link}>
+        <a href={link} target="_blank" rel="noreferrer">
         <Button size="small" color="primary" className={classes.button}>
           Ir para a loja
         </Button>

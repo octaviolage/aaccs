@@ -61,23 +61,19 @@ const Button = styled.button`
 const options = [
   { value: 'all', label: 'Todos' },
   { value: true, label: 'Aprovado'},
-  { value: null, label: 'Pendente'},
-  { value: false, label: 'Reprovado'},
+  { value: 'null', label: 'Pendente'},
+  { value: false, label: 'Reprovado'}
 ];
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
-      margin: theme.spacing(1),
       minWidth: '25%',
     },
-    justifyContent: 'space-around'
-  },
-  filter: {
-    verticalAlign: 'center',
   },
   name: {
     width: '70%',
+    marginRight: '5%',
   }
 }));
 
@@ -121,7 +117,6 @@ function ListagemFamilias() {
   }
 
   const handleChange = (event) => {
-    console.log(event.target.name)
     const filtro = filtros
     if (event.target.name === 'select') {
       filtro.status = event.target.value;
@@ -133,13 +128,12 @@ function ListagemFamilias() {
     }
     const resultado = familias.filter(familia => familia.nome.toLowerCase().includes(filtros.name));
 
-    if (filtros.status !== 'all') {
-      console.log(resultado.filter(familia => familia.aprovacao === filtros.status))
+    if (filtros.status === 'null') 
+      setResultados(resultado.filter(familia => familia.aprovacao === null));
+    else if (filtros.status !== 'all') 
       setResultados(resultado.filter(familia => familia.aprovacao === filtros.status));
-    }
-    else {
+    else 
       setResultados(resultado);
-    }
   }
 
   return (
@@ -149,7 +143,7 @@ function ListagemFamilias() {
       <TableWrapper>
         <form className={classes.root} noValidate autoComplete="off">
           <div>
-          <div className={classes.filter}>Filtros</div>
+            <div>Filtros</div>
             <TextField  className={classes.name}
               id="filled-basic" 
               label="Nome" 
@@ -161,7 +155,7 @@ function ListagemFamilias() {
               id="standard-select-currency"
               select
               label="Status"
-              value={filtros}
+              value={filtros.status}
               onChange={handleChange}
               helperText="Filtre o status da família"
               variant="filled"

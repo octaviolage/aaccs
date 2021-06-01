@@ -74,19 +74,18 @@ export async function exportPokemons(table, token) {
         {
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json; charset=utf-8'
+                'Content-Type': 'application/json; charset=utf8'
             }
         }
     )
         .then((response) => {
             if(response.status === 200) {
-                console.log(response.data)
-                let csvContent = "data:text/csv;charset=utf-8," + response.data;
+                let csvContent = "data:text/csv;charset=utf8," + response.data.replaceAll('"', '').replaceAll(',', ';').replaceAll('|', ', ');
                 const encodedUri = encodeURI(csvContent);
                 const link = document.createElement("a");
                 link.setAttribute("href", encodedUri);
                 link.setAttribute("download", `${table}.csv`);
-                document.body.appendChild(link); // Required for FF
+                document.body.appendChild(link);
 
                 link.click();
             }
@@ -111,6 +110,7 @@ export async function approveFamily(id, value, token) {
     )
         .then((response) => {
             if (response.status === 200) {
+                window.location.reload();
                 return response;
             }
             else {
