@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { FormField } from '../../../components/FormField';
 import { Button } from '../../../components/Button';
 import { useForm } from '../../../components/hooks/useForm';
 import { PageDefault } from '../../../components/PageDefault';
@@ -8,7 +7,6 @@ import { postPokemons } from '../../../api';
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
     root: {

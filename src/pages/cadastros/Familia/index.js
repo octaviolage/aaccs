@@ -11,11 +11,23 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'block',
+        '& label.Mui-focused': {
+            color: 'var(--secondary)',
+        },
+        '& .MuiFilledInput-underline:after': {
+            borderBottomColor: 'var(--secondary)',
+        },
     },
     mobile: {
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
             width: '95%',
+        },
+        '& label.Mui-focused': {
+            color: 'var(--secondary)',
+        },
+        '& .MuiFilledInput-underline:after': {
+            borderBottomColor: 'var(--secondary)',
         },
     },
     fullField: {
@@ -36,8 +48,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FileField = styled.input`
-    margin: 3%;
-    margin-left: 10%;
+    display: flex;
+    margin: auto;
+    margin-bottom: 5%;
 `;
 
 
@@ -132,13 +145,14 @@ function CadastroFamilia() {
     const classes = useStyles();
     const matches = useMediaQuery('(min-width:800px)');
 
-    const [ values ] = useState(valoresIniciais);
+    const [values, setValues] = useState(valoresIniciais);
     const [cidades, setCidades] = useState([]);
 
-    function handleChange(event) {
+    async function handleChange(event) {
         const name = event.target.name;
         const value = event.target.value;
         values[name] = value;
+        setValues(values)
     }
 
     async function handleSubmit(event) {
@@ -182,9 +196,10 @@ function CadastroFamilia() {
         }).then(municipios => {
             const cidades = []
             municipios.forEach(municipio => {
-                cidades.push({ value: municipio.nome, label: municipio.nome })
+                cidades.push({ value: municipio.id, label: municipio.nome })
             });
             setCidades(cidades);
+
         })
     }
 
@@ -220,7 +235,7 @@ function CadastroFamilia() {
                         name="email"
                         type="email"
                     />
-                </div> <br/>
+                </div> <br />
                 <TextField className={classes.thirdField}
                     required
                     label="Quantas pessoas moram com você"
@@ -231,45 +246,45 @@ function CadastroFamilia() {
                 />
                 <SubTitle > Endereço </SubTitle>
                 <div className={matches ? classes.fullField : null}>
-                <TextField className={classes.halfField}
-                    required
-                    select
-                    label="Estado"
-                    value={values.estado}
-                    onChange={getMunicipios}
-                    variant="filled"
-                    name="estado"
-                >
-                    {estados.map((estado) => (
-                        <MenuItem key={estado.value} value={estado.value}>
-                            {estado.label}
-                        </MenuItem>
-                    ))}
-                </TextField>
-                <TextField className={classes.halfField}
-                    required
-                    select
-                    label="Cidade"
-                    value={values.cidade}
-                    onChange={handleChange}
-                    variant="filled"
-                    name="cidade"
-                >
-                    {cidades.map((cidade) => (
-                        <MenuItem key={cidade.value} value={cidade.value}>
-                            {cidade.label}
-                        </MenuItem>
-                    ))}
-                </TextField>
+                    <TextField className={classes.halfField}
+                        required
+                        select
+                        label="Estado"
+                        value={values.estado}
+                        onChange={getMunicipios}
+                        variant="filled"
+                        name="estado"
+                    >
+                        {estados.map((estado) => (
+                            <MenuItem key={estado.value} value={estado.value}>
+                                {estado.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                    <TextField className={classes.halfField}
+                        required
+                        select
+                        label="Cidade"
+                        value={values.cidade}
+                        onChange={handleChange}
+                        variant="filled"
+                        name="cidade"
+                    >
+                        {cidades.map((cidade) => (
+                            <MenuItem key={cidade.value} value={cidade.label}>
+                                {cidade.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </div>
-                <br /> 
+                <br />
                 <TextField className={matches ? classes.fullField : null}
                     required
                     label="Bairro"
                     variant="filled"
                     onChange={handleChange}
                     name="bairro"
-                /> <br/>
+                /> <br />
                 <div className={matches ? classes.fullField : null}>
                     <TextField className={classes.halfField}
                         required
@@ -306,7 +321,6 @@ function CadastroFamilia() {
                 /> <br />
                 <Button type="submit" > Enviar </Button>
             </Form>
-                <button onClick={() => console.log(values.imagem)}>click me</button>
         </PageDefault >
     )
 }

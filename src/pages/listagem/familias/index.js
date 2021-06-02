@@ -70,6 +70,12 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTextField-root': {
       minWidth: '25%',
     },
+    '& label.Mui-focused': {
+      color: 'var(--secondary)',
+    },
+    '& .MuiFilledInput-underline:after': {
+      borderBottomColor: 'var(--secondary)',
+  },
   },
   name: {
     width: '70%',

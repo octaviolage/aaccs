@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
 import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 import { useAuth0 } from "@auth0/auth0-react";
 import { PageDefault } from '../../../components/PageDefault';
 import { getPokemons, exportPokemons } from '../../../api';
@@ -54,14 +56,38 @@ const TableWrapper = styled.div`
     }
 `;
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      minWidth: '100%',
+    },
+    '& label.Mui-focused': {
+      color: 'var(--secondary)',
+    },
+    '& .MuiFilledInput-underline:after': {
+      borderBottomColor: 'var(--secondary)',
+  },
+  },
+}));
+
 function ListagemDoadores() {
+  const classes = useStyles();
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [doadores, setDoadores] = useState([]);
+  const [resultados, setResultados] = useState([]);
   const [token, setToken] = useState([]);
+  const [filtro, setFiltro ] = useState({name: ""});
 
   async function handleExport() {
     await exportPokemons('doadores', token)
+  }
+
+  const handleChange = (event) => {
+    filtro.name = event.target.value.toLowerCase();
+    setFiltro(filtro)
+    const resultado = doadores.filter(doadore => doadore.nome.toLowerCase().includes(filtro.name));
+    setResultados(resultado)
   }
 
   useEffect(() => {
@@ -72,9 +98,9 @@ function ListagemDoadores() {
           scope: "read:current_user",
         })
         const doadores = await getPokemons('doadores', accessToken)
-        // console.log(accessToken)
         setToken(accessToken)
         setDoadores(doadores);
+        setResultados(doadores);
       }
       catch {
         return window.alert('Faça login antes!')
@@ -93,7 +119,20 @@ function ListagemDoadores() {
     <PageDefault >
       <Title > Listagem de doadores </Title>
       <TableWrapper>
-        <DonorTable users={doadores} />
+      <form className={classes.root} noValidate autoComplete="off">
+          <div>
+            <div>Filtros</div>
+            <TextField  className={classes.root}
+              id="filled-basic" 
+              label="Nome" 
+              variant="filled" 
+              onChange={handleChange}
+              name="name"
+            />
+          </div>
+          <br/>
+      </form>
+        <DonorTable users={resultados} />
       </TableWrapper>
       <br /><br />
       <Button onClick={handleExport} >Exportar dados</Button>
