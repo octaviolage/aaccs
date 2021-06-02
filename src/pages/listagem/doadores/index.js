@@ -103,17 +103,16 @@ function ListagemDoadores() {
         setResultados(doadores);
       }
       catch {
-        return window.alert('Faça login antes!')
+        window.alert('Faça login antes!');
+        return window.location.replace('/')
       }
     }
     fetchToken()
   }, [getAccessTokenSilently]);
 
   if (!isAuthenticated){
-    return (
-        <Redirect to="/" />
-    )
-}
+    return <p>Carregando...</p>
+  }
 
   return (
     <PageDefault >
