@@ -164,7 +164,7 @@ function DonorTable({users, token}) {
             <TableCell />
             <TableCell className={classes.header}>Nome</TableCell>
             <TableCell className={classes.header}>Contato</TableCell>
-            <TableCell className={classes.header}>Editar</TableCell>
+            <TableCell className={classes.header}>Ações</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
